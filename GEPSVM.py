@@ -47,10 +47,17 @@ class GEPSVM:
 def predict(p1,p2, X):
     result = np.ones(len(X))
     for i in range(len(X)):
-        sub = np.subtract(X[i], p1.center)
-        signs = np.sign(sub)
-        v1 = X[i].T.dot(p1.w)+ p1.ksi() - p1.gamma
-        v2 = X[i].T.dot(p2.w) - p2.gamma
-        if abs(v2) < abs(v1):
+        tempw = np.append(p1.w,p1.ksi)
+        k = np.subtract(X[i], p1.center)
+        l = np.linalg.norm(k, ord=1, keepdims=True)
+        tempA= np.append(k,l, axis=0)
+
+        v1 = (tempw.T.dot(tempA)-p1.gamma)/np.linalg.norm(tempw, ord=2,keepdims=True)
+
+        tempw2= np.append(p2.w,p2.ksi)
+
+        v2 =(tempw2.T.dot(tempA)-p2.gamma)/np.linalg.norm(tempw2, ord=2  ,keepdims=True)
+        print v1,v2
+        if  abs(v1) < abs(v2):
             result[i] = 0
     return result
