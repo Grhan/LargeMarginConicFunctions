@@ -1,5 +1,4 @@
 import numpy as np
-import PSVM
 from sklearn.cross_validation import StratifiedKFold
 from sklearn.metrics import accuracy_score
 import time
@@ -49,10 +48,14 @@ pModel1.fit(B,A,center2)
 print "Model 1 W:",pModel.w," ksi:",pModel.ksi,"  gamma:",pModel.gamma , "  center:", center1
 print "Model 2 W:",pModel1.w," ksi:",pModel1.ksi,"  gamma:",pModel1.gamma, "    center", center2
 
-print "A model1 vs model2 ", pValue(pModel,pModel1,A)
+#print "A model1 vs model2 ", pValue(pModel,pModel1,A)
 
-print "B model2 vs model1 ", pValue(pModel,pModel1,B)
+#print "B model2 vs model1 ", pValue(pModel,pModel1,B)
 
+
+print "A model1 vs model2 ", GEPSVM.predict(pModel,pModel1,A)
+
+print "B model2 vs model1 ", GEPSVM.predict(pModel,pModel1,B)
 
 
 fig = plt.figure()
@@ -124,4 +127,5 @@ predictions = GEPSVM.predict(pModel,pModel1,X )
 
 print accuracy_score(labels, predictions)
 """
+
 
